@@ -12,7 +12,9 @@ public class HelloHandler implements SimpleMessageHandler, Runnable {
     public void handleMessage(String m){
         try {
         	incoming.put(m);
+        	System.out.println(m);
         } catch (Exception e){
+        	e.printStackTrace();
         }
     }
     
@@ -22,16 +24,8 @@ public class HelloHandler implements SimpleMessageHandler, Runnable {
     			String msg = incoming.take();
     			myMuxDemux.send(msg);
     		} catch (Exception e){
+    			e.printStackTrace();
     		}
     	}
     }
-	
-	/**
-	 * @param args
-	 */
-	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-
-	}
-
 }

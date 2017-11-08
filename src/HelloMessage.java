@@ -11,7 +11,7 @@ import java.util.regex.Matcher;
 
 /**
  *
- * @author arpaf, AmaurX, Swann
+ * @author Swann
  */
 public class HelloMessage {
 	String senderID;
