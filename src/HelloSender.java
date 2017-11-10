@@ -23,7 +23,7 @@ public class HelloSender implements SimpleMessageHandler{
     public void run(){
     	while(true){
     		try{
-    			hello = new HelloMessage(senderIdIn, sequenceNo, 10);
+    			hello = new HelloMessage(myMuxDemux.getID(), 42, 10);
     			myMuxDemux.send(hello.getHelloMessageAsEncodedString());
     		} catch (Exception e){
     			e.printStackTrace();

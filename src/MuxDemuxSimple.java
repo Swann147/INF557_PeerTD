@@ -11,10 +11,12 @@ public class MuxDemuxSimple implements Runnable{
     private SimpleMessageHandler[] myMessageHandlers;
     private SynchronousQueue<String> outgoing = new SynchronousQueue<String>();
     private String id = null ;
+    private PeerTable myPeerTable = null;
     
-    MuxDemuxSimple (SimpleMessageHandler[] h, DatagramSocket s){
+    MuxDemuxSimple (SimpleMessageHandler[] h, DatagramSocket s, PeerTable pt){
         mySocket = s;
         id = "para";
+        myPeerTable = pt;
         try{
         	mySocket.setBroadcast(true);
         } catch (Exception e){
@@ -30,11 +32,11 @@ public class MuxDemuxSimple implements Runnable{
         try{
         	while(true){
         		byte[] buf = new byte[8192];
-        		DatagramPacket messageReçu = new DatagramPacket(buf, 8192);
-        		mySocket.receive(messageReçu);
-        		String message = new String(messageReçu.getData());
+        		DatagramPacket receivedMsg = new DatagramPacket(buf, 8192);
+        		mySocket.receive(receivedMsg);
+        		String message = new String(receivedMsg.getData());
         		for (int i=0; i<myMessageHandlers.length; i++){
-                    myMessageHandlers[i].handleMessage(message);
+                    myMessageHandlers[i].handleMessage(message, receivedMsg.getAddress().toString());
                 }
         	}
         }catch (IOException e){ 
@@ -49,6 +51,18 @@ public class MuxDemuxSimple implements Runnable{
 	
     public void send(String s){
     	outgoing.add(s);
+    }
+    
+    public String getID() {
+    	return id;
+    }
+    
+    public PeerTable getPeerTable() {
+    	return myPeerTable ;
+    }
+    
+    public String getSenderIPAddress() {
+    	return receivedMsg.getAddress().toString();
     }
     
     public class throwMessage implements Runnable{
@@ -79,7 +93,9 @@ public class MuxDemuxSimple implements Runnable{
 			HelloHandler[] handlers = new HelloHandler[1];
 			handlers[0]= new HelloHandler();
 			
-			MuxDemuxSimple dm = new MuxDemuxSimple(handlers, s);
+			PeerTable pt = new PeerTable();
+			
+			MuxDemuxSimple dm = new MuxDemuxSimple(handlers, s, pt);
 			throwMessage tm = dm.new throwMessage();
 			
 			new Thread(handlers[0]).start();
