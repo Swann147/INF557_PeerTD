@@ -10,9 +10,11 @@ public class MuxDemuxSimple implements Runnable{
     private BufferedReader in;
     private SimpleMessageHandler[] myMessageHandlers;
     private SynchronousQueue<String> outgoing = new SynchronousQueue<String>();
+    private String id = null ;
     
     MuxDemuxSimple (SimpleMessageHandler[] h, DatagramSocket s){
         mySocket = s;
+        id = "para";
         try{
         	mySocket.setBroadcast(true);
         } catch (Exception e){
