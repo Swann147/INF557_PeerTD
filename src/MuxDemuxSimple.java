@@ -18,6 +18,7 @@ public class MuxDemuxSimple implements Runnable{
         try{
         	mySocket.setBroadcast(true);
         } catch (Exception e){
+        	e.printStackTrace();
         }
         myMessageHandlers = h;
     }
@@ -36,10 +37,14 @@ public class MuxDemuxSimple implements Runnable{
                     myMessageHandlers[i].handleMessage(message);
                 }
         	}
-        }catch (IOException e){ }		
+        }catch (IOException e){ 
+        	e.printStackTrace();
+        }		
         try{
             in.close(); mySocket.close();
-        }catch(IOException e){ }
+        }catch(IOException e){ 
+        	e.printStackTrace();
+        }
     }
 	
     public void send(String s){
@@ -58,6 +63,7 @@ public class MuxDemuxSimple implements Runnable{
     				this.wait(10000);
     			}
     		} catch (Exception e){
+    			e.printStackTrace();
     		}
     	}
     }
@@ -82,6 +88,7 @@ public class MuxDemuxSimple implements Runnable{
 			
 			
 		} catch (Exception e){
+			e.printStackTrace();
 		}
 	}
 
