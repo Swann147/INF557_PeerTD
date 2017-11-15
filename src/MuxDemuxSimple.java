@@ -67,52 +67,5 @@ public class MuxDemuxSimple implements Runnable{
     public PeerTable getPeerTable() {
     	return myPeerTable ;
     }
-    
-    public String getSenderIPAddress() {
-    	return receivedMsg.getAddress().toString();
-    }
-    
-    public class throwMessage implements Runnable{
-    	
-    	
-    	public void run(){
-    		try{
-    			while(true){
-    				String message = outgoing.remove();
-    				DatagramPacket messageToSend = new DatagramPacket(message.getBytes(), message.getBytes().length);
-    				mySocket.send(messageToSend);
-    				this.wait(10000);
-    			}
-    		} catch (Exception e){
-    			e.printStackTrace();
-    		}
-    	}
-    }
-    
-	/**
-	 * @param args
-	 */
-	public static void main(String[] args){
-		// TODO Auto-generated method stub
-		try{
-			DatagramSocket s = new DatagramSocket(4242);
-			
-			HelloHandler[] handlers = new HelloHandler[1];
-			handlers[0]= new HelloHandler();
-			
-			PeerTable pt = new PeerTable();
-			
-			MuxDemuxSimple dm = new MuxDemuxSimple(handlers, s, pt);
-			throwMessage tm = dm.new throwMessage();
-			
-			new Thread(handlers[0]).start();
-			new Thread(dm).start();
-			new Thread(tm).start();
-			
-			
-		} catch (Exception e){
-			e.printStackTrace();
-		}
-	}
 
 }
