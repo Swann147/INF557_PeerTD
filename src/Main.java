@@ -3,7 +3,7 @@ import java.net.DatagramSocket;
 public class Main {
 	
 	// TODO Auto-generated method stub
-	Main(){
+	public static void main(String[] args){
 		try{
 		DatagramSocket socket = new DatagramSocket(4242);
 		

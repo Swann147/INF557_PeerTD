@@ -67,5 +67,9 @@ public class MuxDemuxSimple implements Runnable{
     public PeerTable getPeerTable() {
     	return myPeerTable ;
     }
+    
+    public static void main(String[] args){
+    	
+    }
 
 }
