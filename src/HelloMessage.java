@@ -74,6 +74,14 @@ public class HelloMessage {
 		numPeers = 0;
 		peers = new Vector<String>();		
 	}
+	
+	public HelloMessage(String senderIdIn, int sequenceNo, int helloIntervalIn, int numPeerIn, Vector<String> peersIn) {
+		senderID = senderIdIn;
+		sequenceNumber = sequenceNo;
+		helloInterval = helloIntervalIn;
+		numPeers = numPeerIn;
+		peers = peersIn;
+	}
 
 
 	public String getHelloMessageAsEncodedString() throws Exception
