@@ -6,7 +6,7 @@ public class HelloReceiver implements SimpleMessageHandler{
 	private MuxDemuxSimple myMuxDemux = null;
 	private HelloMessage hello;
     
-    public void handleMessage(String m){
+    public void handleMessage(String m, String IPAddress){
         try {
         	incoming.put(m);
         } catch (Exception e){

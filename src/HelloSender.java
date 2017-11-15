@@ -6,7 +6,7 @@ public class HelloSender implements SimpleMessageHandler{
 	private MuxDemuxSimple myMuxDemux = null;
 	private HelloMessage hello;
     
-    public void handleMessage(String m){
+    public void handleMessage(String m, String IPAddress){
         try {
         	incoming.put(m);
         } catch (Exception e){
@@ -14,8 +14,6 @@ public class HelloSender implements SimpleMessageHandler{
         }
     }
     
-    // pour cette classe, cette méthode est inutile mais on est obligé de la laissé car elle est forcément appelée
-    // dans MuxDemuxSimple sur l'ensemble de l'interface
     public void setMuxDemux(MuxDemuxSimple md) {
     	myMuxDemux = md;
     }
@@ -23,7 +21,8 @@ public class HelloSender implements SimpleMessageHandler{
     public void run(){
     	while(true){
     		try{
-    			hello = new HelloMessage(myMuxDemux.getID(), 42, 10);
+    			String msg = incoming.take();
+    			hello = new HelloMessage(msg);
     			myMuxDemux.send(hello.getHelloMessageAsEncodedString());
     		} catch (Exception e){
     			e.printStackTrace();

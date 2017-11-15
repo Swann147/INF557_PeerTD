@@ -1,10 +1,7 @@
 import java.util.*;
 import java.time.Clock;
 
-<<<<<<< HEAD
-=======
 
->>>>>>> a50fd51143e4301f49a5818fa7ec41db39959226
 public class PeerTable {
 	
 	Vector<Vector<String>> table;
