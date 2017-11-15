@@ -38,7 +38,9 @@ public class HelloHandler implements SimpleMessageHandler, Runnable {
     	while(true){
     		try{
     			String msg = incoming.take();
-    			myMuxDemux.send(msg);
+    			HelloMessage hello = new HelloMessage(msg); 
+    			HelloSender myHelloSender = new HelloSender();
+    			myHelloSender.handleMessage(msg, null);
     		} catch (Exception e){
     			e.printStackTrace();
     		}

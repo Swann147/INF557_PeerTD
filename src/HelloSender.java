@@ -1,10 +1,14 @@
 import java.util.concurrent.SynchronousQueue;
 
-public class HelloSender implements SimpleMessageHandler{
+public class HelloSender implements SimpleMessageHandler, Runnable{
 
 	private SynchronousQueue<String> incoming = new SynchronousQueue<String>();
 	private MuxDemuxSimple myMuxDemux = null;
 	private HelloMessage hello;
+	
+	public HelloSender() {
+		new Thread(this).start();
+	}
     
     public void handleMessage(String m, String IPAddress){
         try {

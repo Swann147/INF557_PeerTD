@@ -1,12 +1,11 @@
 import java.util.concurrent.SynchronousQueue;
 
-public class HelloReceiver implements SimpleMessageHandler, Runnable{
-	
+public class SenderHandler implements SimpleMessageHandler, Runnable{
+
 	private SynchronousQueue<String> incoming = new SynchronousQueue<String>();
 	private MuxDemuxSimple myMuxDemux = null;
-	private HelloMessage hello;
 	
-	public HelloReceiver() {
+	public SenderHandler() {
 		new Thread(this).start();
 	}
     
@@ -18,8 +17,6 @@ public class HelloReceiver implements SimpleMessageHandler, Runnable{
         }
     }
     
-    // pour cette classe, cette méthode est inutile mais on est obligé de la laissé car elle est forcément appelée
-    // dans MuxDemuxSimple sur l'ensemble de l'interface
     public void setMuxDemux(MuxDemuxSimple md) {
     	myMuxDemux = md;
     }
@@ -28,12 +25,10 @@ public class HelloReceiver implements SimpleMessageHandler, Runnable{
     	while(true){
     		try{
     			String msg = incoming.take();
-    			hello = new HelloMessage(msg);
-    			System.out.println(msg);
+    			myMuxDemux.send(msg);
     		} catch (Exception e){
     			e.printStackTrace();
     		}
     	}
     }
-
 }
