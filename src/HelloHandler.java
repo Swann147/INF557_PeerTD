@@ -5,8 +5,10 @@ public class HelloHandler implements SimpleMessageHandler, Runnable {
 	private SynchronousQueue<String> incoming = new SynchronousQueue<String>();
 	private MuxDemuxSimple myMuxDemux = null;
 	private String senderIPAddress = null;
+	private PeerTable pt;
 	
-	public HelloHandler() {
+	public HelloHandler(PeerTable pt) {
+		this.pt = pt;
 		new Thread(this).start();
 	}
 	
@@ -43,7 +45,7 @@ public class HelloHandler implements SimpleMessageHandler, Runnable {
     		try{
     			String msg = incoming.take();
     			HelloMessage hello = new HelloMessage(msg); 
-    			HelloSender myHelloSender = new HelloSender();
+    			HelloSender myHelloSender = new HelloSender(pt);
     			myHelloSender.handleMessage(msg, null);
     		} catch (Exception e){
     			e.printStackTrace();

@@ -2,7 +2,7 @@ import java.util.*;
 
 public class PeerTable {
 	
-	Vector<Vector<String>> table;
+	private Vector<Vector<String>> table;
 	
 	//Constructor
 	PeerTable(){
@@ -19,6 +19,7 @@ public class PeerTable {
 		return false;
 	}
 	
+
 	//Return the vector with all the information about this peer if found, else an exception.
 	public Vector<String> getPeer(String peerID) throws Exception{
 		int indicePeer = 0;

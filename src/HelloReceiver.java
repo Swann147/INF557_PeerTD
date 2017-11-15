@@ -5,8 +5,10 @@ public class HelloReceiver implements SimpleMessageHandler, Runnable{
 	private SynchronousQueue<String> incoming = new SynchronousQueue<String>();
 	private MuxDemuxSimple myMuxDemux = null;
 	private HelloMessage hello;
+	private PeerTable pt;
 	
 	public HelloReceiver() {
+		this.pt = pt;
 		new Thread(this).start();
 	}
     

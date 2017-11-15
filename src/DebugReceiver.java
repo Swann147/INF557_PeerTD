@@ -5,8 +5,10 @@ public class DebugReceiver implements SimpleMessageHandler, Runnable{
 
 	private SynchronousQueue<String> incoming = new SynchronousQueue<String>();
 	private MuxDemuxSimple myMuxDemux = null;
+	private PeerTable pt;
 	
-	public DebugReceiver(){
+	public DebugReceiver(PeerTable pt){
+		this.pt = pt;
 		new Thread(this).start();
 	}
 	

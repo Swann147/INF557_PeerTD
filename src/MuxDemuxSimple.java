@@ -11,12 +11,14 @@ public class MuxDemuxSimple implements Runnable{
     private SimpleMessageHandler[] myMessageHandlers;
     private SynchronousQueue<String> outgoing = new SynchronousQueue<String>();
     private String id = null ;
-    private PeerTable myPeerTable = null;
+    private PeerTable myPeerTable = new PeerTable();
     
     MuxDemuxSimple (SimpleMessageHandler[] h, DatagramSocket s, PeerTable pt){
         mySocket = s;
         id = "para";
         myPeerTable = pt;
+        // ajout de notre id comme premier élément peertable
+        pt.addPeer(id, "0000", "111111111");
         try{
         	mySocket.setBroadcast(true);
         } catch (Exception e){

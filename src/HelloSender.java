@@ -4,8 +4,10 @@ public class HelloSender implements SimpleMessageHandler, Runnable{
 
 	private MuxDemuxSimple myMuxDemux = null;
 	private HelloMessage hello;
+	public PeerTable pt;
 	
-	public HelloSender() {
+	public HelloSender(PeerTable pt) {
+		this.pt = pt;
 		new Thread(this).start();
 	}
     
@@ -18,7 +20,6 @@ public class HelloSender implements SimpleMessageHandler, Runnable{
     public void run(){
     	while(true){
     		try{
-    			PeerTable pt = myMuxDemux.getPeerTable();
     			String id = myMuxDemux.getID();
     			HelloMessage hello = new HelloMessage(id,Integer.parseInt(pt.readSeqNum(id)),10,pt.getPeer(id).size(),pt.getPeer(id));
     			myMuxDemux.send(hello.getHelloMessageAsEncodedString());
