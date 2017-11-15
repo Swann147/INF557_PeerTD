@@ -1,5 +1,9 @@
 import java.util.*;
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> c1a0044cfefe666d32472bf418137adcbbd93bb6
 public class PeerTable {
 	
 	Vector<Vector<String>> table;
