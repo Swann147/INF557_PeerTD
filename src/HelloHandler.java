@@ -6,6 +6,10 @@ public class HelloHandler implements SimpleMessageHandler, Runnable {
 	private MuxDemuxSimple myMuxDemux = null;
 	private String senderIPAddress = null;
 	
+	public HelloHandler() {
+		new Thread(this).start();
+	}
+	
     public void setMuxDemux(MuxDemuxSimple md){
         myMuxDemux = md;
     }
