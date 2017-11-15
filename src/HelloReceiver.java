@@ -7,7 +7,7 @@ public class HelloReceiver implements SimpleMessageHandler, Runnable{
 	private HelloMessage hello;
 	private PeerTable pt;
 	
-	public HelloReceiver() {
+	public HelloReceiver(PeerTable pt) {
 		this.pt = pt;
 		new Thread(this).start();
 	}
@@ -16,7 +16,6 @@ public class HelloReceiver implements SimpleMessageHandler, Runnable{
         try {
         	incoming.put(m);
         } catch (Exception e){
-        	e.printStackTrace();
         }
     }
     

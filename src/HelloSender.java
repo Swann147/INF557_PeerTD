@@ -22,9 +22,10 @@ public class HelloSender implements SimpleMessageHandler, Runnable{
     		try{
     			String id = myMuxDemux.getID();
     			HelloMessage hello = new HelloMessage(id,Integer.parseInt(pt.readSeqNum(id)),10,pt.getPeer(id).size(),pt.getPeer(id));
+    			System.out.println(pt.readToString(id));
     			myMuxDemux.send(hello.getHelloMessageAsEncodedString());
+    			Thread.sleep(10000);
     		} catch (Exception e){
-    			e.printStackTrace();
     		}
     	}
     }

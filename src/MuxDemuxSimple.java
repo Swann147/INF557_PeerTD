@@ -17,8 +17,7 @@ public class MuxDemuxSimple implements Runnable{
         mySocket = s;
         id = "para";
         myPeerTable = pt;
-        // ajout de notre id comme premier élément peertable
-        pt.addPeer(id, "0000", "111111111");
+        pt.addPeer(id, s.getLocalSocketAddress().toString(), "10");
         try{
         	mySocket.setBroadcast(true);
         } catch (Exception e){
@@ -53,9 +52,8 @@ public class MuxDemuxSimple implements Runnable{
 	
 	public void send(String s) {
 		try {
-			byte[] buf = new byte[8192];
-			buf = s.getBytes();
-			DatagramPacket sendMsg = new DatagramPacket(buf, 8192);
+			byte[] buf = s.getBytes();
+			DatagramPacket sendMsg = new DatagramPacket(buf, buf.length, InetAddress.getByName("255.255.255.255"), mySocket.getLocalPort());
 			mySocket.send(sendMsg);
 		} catch (Exception e) {
 			e.printStackTrace();
