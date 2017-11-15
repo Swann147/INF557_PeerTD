@@ -49,9 +49,16 @@ public class MuxDemuxSimple implements Runnable{
         }
     }
 	
-    public void send(String s){
-    	outgoing.add(s);
-    }
+	public void send(String s) {
+		try {
+			byte[] buf = new byte[8192];
+			buf = s.getBytes();
+			DatagramPacket sendMsg = new DatagramPacket(buf, 8192);
+			mySocket.send(sendMsg);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
     
     public String getID() {
     	return id;
