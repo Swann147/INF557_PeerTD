@@ -1,5 +1,7 @@
 import java.util.concurrent.SynchronousQueue;
 
+//Only print the Hello msg to notice that we received something
+
 public class HelloReceiver implements SimpleMessageHandler, Runnable{
 	
 	private SynchronousQueue<String> incoming = new SynchronousQueue<String>();

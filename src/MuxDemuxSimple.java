@@ -18,6 +18,12 @@ public class MuxDemuxSimple implements Runnable{
         id = "para";
         myPeerTable = pt;
         pt.addPeer(id, s.getLocalSocketAddress().toString(), "10");
+        try {
+			s.setBroadcast(true);
+		} catch (SocketException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
         try{
         	mySocket.setBroadcast(true);
         } catch (Exception e){

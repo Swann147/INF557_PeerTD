@@ -21,7 +21,7 @@ public class HelloSender implements SimpleMessageHandler, Runnable{
     	while(true){
     		try{
     			String id = myMuxDemux.getID();
-    			HelloMessage hello = new HelloMessage(id,Integer.parseInt(pt.readSeqNum(id)),10,pt.getPeer(id).size(),pt.getPeer(id));
+    			HelloMessage hello = new HelloMessage(id,Integer.parseInt(pt.readSeqNum(id)),10,pt.getNbPeers(),pt.getAllPeersName());
     			System.out.println(pt.readToString(id));
     			myMuxDemux.send(hello.getHelloMessageAsEncodedString());
     			Thread.sleep(10000);

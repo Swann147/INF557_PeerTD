@@ -1,5 +1,7 @@
 import java.util.concurrent.SynchronousQueue;
 
+// Process the Hello msg received: keep the peer inside the table
+
 public class HelloHandler implements SimpleMessageHandler, Runnable {
 
 	private SynchronousQueue<String> incoming = new SynchronousQueue<String>();
@@ -24,7 +26,7 @@ public class HelloHandler implements SimpleMessageHandler, Runnable {
         	try {
         		HelloMessage hello = new HelloMessage(m);
         		if (myMuxDemux.getPeerTable().hasPeer(hello.getSenderID())) {
-        			if (!myMuxDemux.getPeerTable().readSeqNum(hello.getSenderID()).equals(hello.getSequenceNumber())) {
+        			if (!myMuxDemux.getPeerTable().readSeqNum(hello.getSenderID()).equals(String.valueOf(hello.getSequenceNumber()))) {
         				myMuxDemux.getPeerTable().setStateToInconsistent(hello.getSenderID());
         			}
         		}
