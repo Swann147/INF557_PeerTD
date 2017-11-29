@@ -32,7 +32,7 @@ public class HelloReceiver implements SimpleMessageHandler, Runnable{
     		try{
     			String msg = incoming.take();
     			hello = new HelloMessage(msg);
-    			System.out.println(msg);
+    			System.out.println("HelloReceiver : " + msg);
     		} catch (Exception e){
     			e.printStackTrace();
     		}

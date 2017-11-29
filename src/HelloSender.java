@@ -1,4 +1,4 @@
-import java.util.concurrent.SynchronousQueue;
+import java.util.Vector;
 
 public class HelloSender implements SimpleMessageHandler, Runnable{
 
@@ -21,7 +21,9 @@ public class HelloSender implements SimpleMessageHandler, Runnable{
     	while(true){
     		try{
     			String id = myMuxDemux.getID();
-    			HelloMessage hello = new HelloMessage(id,Integer.parseInt(pt.readSeqNum(id)),10,pt.getNbPeers(),pt.getAllPeersName());
+    			Vector<String> peers = pt.cleanTable();
+    			int nbPeers = pt.getNbPeers();
+    			HelloMessage hello = new HelloMessage(id,Integer.parseInt(pt.readSeqNum(id)),10,nbPeers,peers);
     			System.out.println(pt.readToString(id));
     			myMuxDemux.send(hello.getHelloMessageAsEncodedString());
     			Thread.sleep(10000);

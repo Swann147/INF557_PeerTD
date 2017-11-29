@@ -18,7 +18,7 @@ public class DebugReceiver implements SimpleMessageHandler, Runnable{
     
     public void handleMessage(String m, String IPAddress){
         try {
-        	System.out.println(m);
+        	System.out.println("DebugReceiver : " + m);
         	incoming.put(m);
         } catch (Exception e){
         	e.printStackTrace();
@@ -30,6 +30,7 @@ public class DebugReceiver implements SimpleMessageHandler, Runnable{
     		try{
     		String raw = incoming.take();
     		String[] part = raw.split(";");
+    		System.out.println("DebugReceiver detail : ");
     		for(int i = 0; i < part.length; i++){
     			System.out.println(part[i]);
     		}

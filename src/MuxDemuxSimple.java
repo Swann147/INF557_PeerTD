@@ -9,7 +9,7 @@ public class MuxDemuxSimple implements Runnable{
     private DatagramSocket mySocket = null;
     private BufferedReader in;
     private SimpleMessageHandler[] myMessageHandlers;
-    private SynchronousQueue<String> outgoing = new SynchronousQueue<String>();
+    //private SynchronousQueue<String> outgoing = new SynchronousQueue<String>();
     private String id = null ;
     private PeerTable myPeerTable = new PeerTable();
     

@@ -1,10 +1,11 @@
 import java.util.*;
+import java.util.concurrent.locks.ReentrantLock;
 
 public class PeerTable {
 	
 	private Vector<Vector<String>> table;
-	//keep the number of peers in a good state to talk
-	private int nbPeersToTalk;
+	private int nbPeersToTalk; //keep the number of peers in a good state to talk
+	private final ReentrantLock lock = new ReentrantLock();
 	
 	//Constructor
 	PeerTable(){
@@ -27,6 +28,7 @@ public class PeerTable {
 	
 	//Return the vector with all the information about this peer if found, else an exception.
 	public Vector<String> getPeer(String peerID) throws Exception{
+		lock.lock();
 		int indicePeer = 0;
 		boolean found = false;
 		for(int i = 0; i < table.size(); i++){
@@ -36,8 +38,10 @@ public class PeerTable {
 			}
 		}
 		if(!found){
+			lock.unlock();
 			throw new Exception(peerID + "unknown");
 		} else {
+			lock.unlock();
 			return table.get(indicePeer);
 		}
 	}
@@ -47,17 +51,21 @@ public class PeerTable {
 	}
 	
 	public Vector<String> getAllPeersName(){
+		lock.lock();
 		Vector<String> names = new Vector<String>();
 		for(int i = 0; i < table.size(); i++) {
 			names.add(table.get(i).get(0));
 		}
+		lock.unlock();
 		return names;
 	}
+	
 	
 	//Add Functions
 	
 	//Add a new peer to the table. The verification that the peer was unknown has already been done
 	public void addPeer(String peerID, String peerIP, String HelloInterval){
+		lock.lock();
 		Vector<String> peer = new Vector<String>();
 		peer.add(peerID);
 		peer.add(peerIP);
@@ -66,12 +74,15 @@ public class PeerTable {
 		peer.add("heard");
 		table.add(peer);
 		nbPeersToTalk ++;
+		lock.unlock();
 	}
+	
 	
 	//Set functions
 	
 	//Set the state of a known peer to one of the 3 possibilities
 	public void setStateToDying(String peerID){
+		lock.lock();
 		try{
 			Vector<String> peer = this.getPeer(peerID);
 			peer.set(4, "Dying");
@@ -79,9 +90,11 @@ public class PeerTable {
 		} catch (Exception e){
 			e.printStackTrace();
 		}
+		lock.unlock();
 	}
 	
 	public void setStateToInconsistent(String peerID){
+		lock.lock();
 		try{
 			Vector<String> peer = this.getPeer(peerID);
 			peer.set(4, "Inconsistent");
@@ -89,16 +102,20 @@ public class PeerTable {
 		} catch (Exception e){
 			e.printStackTrace();
 		}
+		lock.unlock();
 	}
 	
 	public void setStateToSynchronised(String peerID){
+		lock.lock();
 		try{
 			Vector<String> peer = this.getPeer(peerID);
 			peer.set(4, "Synchronised");
 		} catch (Exception e){
 			e.printStackTrace();
 		}
+		lock.unlock();
 	}
+	
 	
 	//Read functions
 	
@@ -142,5 +159,37 @@ public class PeerTable {
 			throw e;
 		}
 	}
+	
+	
+	//Taking care of the TimeOut functions
+	
+	//Deletes a peer
+	public void deletePeer(int i) throws Exception{
+		try {
+			table.remove(i);
+			nbPeersToTalk--;
+		} catch(Exception e){
+			throw e;
+		}
+	}
+	
+	//Goes through the whole table and if the peer is out dated, deletes it
+	// out dated means : time stamp < now
+	public Vector<String> cleanTable() {
+		lock.lock();
+		for(int i = 0 ; i < table.size() ; i++) {
+			if (Integer.parseInt(table.get(i).get(3)) < (int)(long)System.currentTimeMillis()*1000) {
+				try {
+					this.deletePeer(i);
+				} catch (Exception e){
+					e.printStackTrace();
+				}
+			}
+		}
+		Vector<String> finalTable = this.getAllPeersName();
+		lock.unlock();
+		return finalTable;
+	}
+	
 	
 }

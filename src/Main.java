@@ -5,7 +5,6 @@ public class Main {
 	// TODO Auto-generated method stub
 	public static void main(String[] args){
 		try{
-		//System.out.println("bonjour");
 		
 		DatagramSocket socket = new DatagramSocket(4242);
 		

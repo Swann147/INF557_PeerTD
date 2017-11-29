@@ -22,7 +22,6 @@ public class HelloHandler implements SimpleMessageHandler, Runnable {
         try {
         	incoming.put(m);
         	senderIPAddress = IPAddress;
-        	//System.out.println(m);
         	try {
         		HelloMessage hello = new HelloMessage(m);
         		if (myMuxDemux.getPeerTable().hasPeer(hello.getSenderID())) {
